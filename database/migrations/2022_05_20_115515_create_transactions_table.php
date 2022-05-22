@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('qty_transaction');
             $table->integer('subtotal_products');
             $table->integer('total_price');
+            $table->string('status');
             $table->timestamps();
         });
 
