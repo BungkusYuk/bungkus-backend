@@ -13,10 +13,10 @@ class CreateAddressTable extends Migration
      */
     public function up()
     {
-        Schema::create('address', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('street');
+            $table->string('street');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('qty');
             $table->integer('price');
             $table->integer('size');
-            $table->string('detail');
+            $table->text('detail');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
         });

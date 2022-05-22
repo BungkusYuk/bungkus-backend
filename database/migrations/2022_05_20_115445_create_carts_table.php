@@ -17,7 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('products_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('product_qty');
+            $table->integer('product_qty');
             $table->timestamps();
         });
     }
