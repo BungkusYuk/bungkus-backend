@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionResource extends JsonResource
@@ -11,7 +12,7 @@ class TransactionResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array
+     * @return array|Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
