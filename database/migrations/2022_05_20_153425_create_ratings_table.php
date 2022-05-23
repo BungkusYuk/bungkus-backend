@@ -16,7 +16,7 @@ class CreateRatingsTable extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->bigInteger('products_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('product_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('rating');
             $table->boolean('is_rating');
             $table->timestamps();
