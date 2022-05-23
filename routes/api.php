@@ -18,7 +18,8 @@ Route::get('test', function () {
     return ['app' => config('app.name')];
 });
 
-Route::post('/login', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(static function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -26,4 +27,11 @@ Route::middleware(['auth:sanctum'])->group(static function () {
     Route::get('test_login', function () {
         return ['app' => config('app.name')];
     });
+
+    Route::apiResource('/addresses', 'AddressesController');
+    Route::apiResource('/carts', 'CartsController');
+    Route::apiResource('/products', 'ProductsController');
+    Route::apiResource('/ratings', 'RatingsController');
+    Route::apiResource('/transactions', 'TransactionsController');
+    Route::apiResource('/users', 'UsersController');
 });
