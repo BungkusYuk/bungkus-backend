@@ -6,11 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "dyrynda/laravel-cascade-soft-deletes": "^4.1",
+        "ekino/phpstan-banned-code": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "nunomaduro/larastan": "^1.0",
+        "phpmd/phpmd": "^2.11",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "sebastian/phpcpd": "^6.0",
         "spatie/laravel-json-api-paginate": "^1.11",
         "spatie/laravel-query-builder": "^3.6"
     },
@@ -35,6 +41,30 @@
         }
     },
     "scripts": {
+        "check": [
+            "composer check-syntax",
+            "composer phpstan-check",
+            "composer phpmd-check",
+            "composer phpcpd-check"
+        ],
+        "check-syntax": [
+            "! find app -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find bootstrap -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find config -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find database -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find resources -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find routes -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+            "! find tests -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'"
+        ],
+        "phpcpd-check": [
+            "@php -d memory_limit=3G vendor/bin/phpcpd --min-lines=15 --min-tokens=36 app/"
+        ],
+        "phpstan-check": [
+            "@php -d memory_limit=3G vendor/bin/phpstan analyse -c phpstan.neon --no-progress"
+        ],
+        "phpmd-check": [
+            "@php -d memory_limit=3G vendor/bin/phpmd app text codesize,controversial,design,naming,unusedcode,.phpmd.cleancode.xml"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
