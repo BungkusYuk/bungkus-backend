@@ -26,7 +26,7 @@ class AddPaidToUsersTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('category')->nullable();
+            $table->dropColumn('category');
         });
     }
 }
