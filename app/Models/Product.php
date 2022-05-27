@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Cart;
+use App\Models\ProductTransaction;
 use App\Models\Rating;
 use App\Models\Transaction;
 use App\Models\User;
@@ -47,12 +48,12 @@ class Product extends Model
      * @var string[]
      */
     protected $fillable = [
-        'transaction_id',
         'label',
         'qty',
         'price',
         'size',
         'detail',
+        'category',
     ];
 
     /**
@@ -79,13 +80,13 @@ class Product extends Model
 
     /**
      * Model relationship definition.
-     * Product belongs to Transaction
+     * Product has many ProductTransactions
      *
-     * @return BelongsTo
+     * @return HasMany
      */
-    public function transaction(): BelongsTo
+    public function productTransactions(): HasMany
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->hasMany(ProductTransaction::class, 'product_id');
     }
 
     /**

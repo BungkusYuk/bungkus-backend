@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use App\Models\Product;
-use App\Models\ProductTransaction;
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Transaction extends Model
+class ProductTransaction extends Model
 {
     use HasFactory;
 
@@ -30,32 +28,29 @@ class Transaction extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id',
-        'qty_transaction',
-        'subtotal_products',
-        'total_price',
-        'status',
+        'transaction_id',
+        'product_id',
     ];
 
     /**
      * Model relationship definition.
-     * Transaction has many ProductTransactions
+     * ProductTransaction belongs to Product
      *
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function productTransactions(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(ProductTransaction::class, 'transaction_id');
+        return $this->belongsTo(Product::class);
     }
 
     /**
      * Model relationship definition.
-     * Transaction belongs to User
+     * ProductTransaction belongs to Transaction
      *
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function transaction(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Transaction::class);
     }
 }
