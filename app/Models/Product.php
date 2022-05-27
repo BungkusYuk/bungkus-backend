@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Cart;
+use App\Models\ProductTransaction;
 use App\Models\Rating;
 use App\Models\Transaction;
 use App\Models\User;
@@ -75,6 +76,17 @@ class Product extends Model
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class, 'product_id');
+    }
+
+    /**
+     * Model relationship definition.
+     * Product has many ProductTransactions
+     *
+     * @return HasMany
+     */
+    public function productTransactions(): HasMany
+    {
+        return $this->hasMany(ProductTransaction::class, 'product_id');
     }
 
     /**

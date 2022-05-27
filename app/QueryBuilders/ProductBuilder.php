@@ -103,7 +103,7 @@ final class ProductBuilder extends Builder
     protected function getAllowedIncludes(): array
     {
         return [
-            'transaction',
+            'productTransactions',
             'carts',
             'ratings',
             'users',

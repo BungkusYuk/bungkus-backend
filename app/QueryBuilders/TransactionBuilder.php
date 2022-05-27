@@ -100,7 +100,7 @@ final class TransactionBuilder extends Builder
     {
         return [
             'user',
-            'products',
+            'productTransactions',
         ];
     }
 

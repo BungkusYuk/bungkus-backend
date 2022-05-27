@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Product;
+use App\Models\ProductTransaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,13 +39,13 @@ class Transaction extends Model
 
     /**
      * Model relationship definition.
-     * Transaction has many Products
+     * Transaction has many ProductTransactions
      *
      * @return HasMany
      */
-    public function products(): HasMany
+    public function productTransactions(): HasMany
     {
-        return $this->hasMany(Product::class, 'transaction_id');
+        return $this->hasMany(ProductTransaction::class, 'transaction_id');
     }
 
     /**
