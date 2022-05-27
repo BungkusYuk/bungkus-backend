@@ -26,7 +26,7 @@ class AddPhoneToUsers extends Migration
     public function drop()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('category');
+            $table->string('phone')->change();
         });
     }
 }
