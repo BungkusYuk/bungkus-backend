@@ -35,4 +35,5 @@ Route::middleware(['auth:sanctum'])->group(static function () {
     Route::apiResource('/ratings', 'RatingsController');
     Route::apiResource('/transactions', 'TransactionsController');
     Route::apiResource('/users', 'UsersController');
+    Route::apiResource('/product_transactions', 'ProductTransactionsController');
 });

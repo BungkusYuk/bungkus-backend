@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductSaveRequest extends FormRequest
+class ProductTransactionSaveRequest extends FormRequest
 {
     /**
      * Determine if the current user is authorized to make this request.
@@ -25,12 +25,8 @@ class ProductSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'label' => 'required|string|min:2|max:255',
-            'qty' => 'required|integer|between:-2147483647,2147483647',
-            'price' => 'required|integer|between:-2147483647,2147483647',
-            'size' => 'required|integer|between:-2147483647,2147483647',
-            'detail' => 'required|string|min:2|max:65535',
-            'category' => 'required|string|min:2|max:65535',
+            'transaction_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
+            'product_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
         ];
     }
 }

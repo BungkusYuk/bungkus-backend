@@ -2,29 +2,29 @@
 
 namespace App\QueryBuilders;
 
-use App\Http\Requests\ProductGetRequest;
-use App\Models\Product;
+use App\Http\Requests\ProductTransactionGetRequest;
+use App\Models\ProductTransaction;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class ProductBuilder extends Builder
+final class ProductTransactionBuilder extends Builder
 {
     /**
      * Current HTTP Request object.
      *
-     * @var ProductGetRequest
+     * @var ProductTransactionGetRequest
      */
     protected $request;
 
     /**
-     * ProductBuilder constructor.
+     * ProductTransactionBuilder constructor.
      *
-     * @param ProductGetRequest $request
+     * @param ProductTransactionGetRequest $request
      */
-    public function __construct(ProductGetRequest $request)
+    public function __construct(ProductTransactionGetRequest $request)
     {
         $this->request = $request;
-        $this->builder = QueryBuilder::for(Product::class, $request);
+        $this->builder = QueryBuilder::for(ProductTransaction::class, $request);
     }
 
     /**
@@ -35,16 +35,11 @@ final class ProductBuilder extends Builder
     protected function getAllowedFields(): array
     {
         return [
-            'products.id',
-            'products.label',
-            'products.qty',
-            'products.price',
-            'products.size',
-            'products.detail',
-            'products.category',
-            'products.created_at',
-            'products.updated_at',
-            'products.deleted_at',
+            'product_transactions.id',
+            'product_transactions.transaction_id',
+            'product_transactions.product_id',
+            'product_transactions.created_at',
+            'product_transactions.updated_at',
             'transaction.id',
             'transaction.user_id',
             'transaction.qty_transaction',
@@ -53,6 +48,16 @@ final class ProductBuilder extends Builder
             'transaction.status',
             'transaction.created_at',
             'transaction.updated_at',
+            'product.id',
+            'product.label',
+            'product.qty',
+            'product.price',
+            'product.size',
+            'product.detail',
+            'product.created_at',
+            'product.updated_at',
+            'product.deleted_at',
+            'product.category',
         ];
     }
 
@@ -65,25 +70,15 @@ final class ProductBuilder extends Builder
     {
         return [
             AllowedFilter::exact('id'),
-            'label',
-            AllowedFilter::exact('qty'),
-            AllowedFilter::exact('price'),
-            AllowedFilter::exact('size'),
-            'detail',
-            'category',
+            AllowedFilter::exact('transaction_id'),
+            AllowedFilter::exact('product_id'),
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
-            AllowedFilter::exact('deleted_at'),
-            AllowedFilter::exact('products.id'),
-            'products.label',
-            AllowedFilter::exact('products.qty'),
-            AllowedFilter::exact('products.price'),
-            AllowedFilter::exact('products.size'),
-            'products.detail',
-            'products.category',
-            AllowedFilter::exact('products.created_at'),
-            AllowedFilter::exact('products.updated_at'),
-            AllowedFilter::exact('products.deleted_at'),
+            AllowedFilter::exact('product_transactions.id'),
+            AllowedFilter::exact('product_transactions.transaction_id'),
+            AllowedFilter::exact('product_transactions.product_id'),
+            AllowedFilter::exact('product_transactions.created_at'),
+            AllowedFilter::exact('product_transactions.updated_at'),
             AllowedFilter::exact('transaction.id'),
             AllowedFilter::exact('transaction.user_id'),
             AllowedFilter::exact('transaction.qty_transaction'),
@@ -92,6 +87,16 @@ final class ProductBuilder extends Builder
             'transaction.status',
             AllowedFilter::exact('transaction.created_at'),
             AllowedFilter::exact('transaction.updated_at'),
+            AllowedFilter::exact('product.id'),
+            'product.label',
+            AllowedFilter::exact('product.qty'),
+            AllowedFilter::exact('product.price'),
+            AllowedFilter::exact('product.size'),
+            'product.detail',
+            AllowedFilter::exact('product.created_at'),
+            AllowedFilter::exact('product.updated_at'),
+            AllowedFilter::exact('product.deleted_at'),
+            'product.category',
         ];
     }
 
@@ -104,9 +109,7 @@ final class ProductBuilder extends Builder
     {
         return [
             'transaction',
-            'carts',
-            'ratings',
-            'users',
+            'product',
         ];
     }
 
@@ -118,10 +121,10 @@ final class ProductBuilder extends Builder
     protected function getAllowedSearch(): array
     {
         return [
-            'label',
-            'detail',
-            'category',
             'transaction.status',
+            'product.label',
+            'product.detail',
+            'product.category',
         ];
     }
 
@@ -134,15 +137,10 @@ final class ProductBuilder extends Builder
     {
         return [
             'id',
-            'label',
-            'qty',
-            'price',
-            'size',
-            'detail',
-            'category',
+            'transaction_id',
+            'product_id',
             'created_at',
             'updated_at',
-            'deleted_at',
         ];
     }
 

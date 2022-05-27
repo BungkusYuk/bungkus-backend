@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductGetRequest extends FormRequest
+class ProductTransactionGetRequest extends FormRequest
 {
     /**
      * Determine if the current user is authorized to make this request.
@@ -26,25 +26,15 @@ class ProductGetRequest extends FormRequest
     {
         return [
             'filter.id' => 'integer|between:0,18446744073709551615',
-            'filter.label' => 'string|min:2|max:255',
-            'filter.qty' => 'integer|between:-2147483647,2147483647',
-            'filter.price' => 'integer|between:-2147483647,2147483647',
-            'filter.size' => 'integer|between:-2147483647,2147483647',
-            'filter.detail' => 'string|min:2|max:65535',
-            'filter.category' => 'string|min:2|max:65535',
+            'filter.transaction_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.product_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.created_at' => 'date',
             'filter.updated_at' => 'date',
-            'filter.deleted_at' => 'date',
-            'filter.products\.id' => 'integer|between:0,18446744073709551615',
-            'filter.products\.label' => 'string|min:2|max:255',
-            'filter.products\.qty' => 'integer|between:-2147483647,2147483647',
-            'filter.products\.price' => 'integer|between:-2147483647,2147483647',
-            'filter.products\.size' => 'integer|between:-2147483647,2147483647',
-            'filter.products\.detail' => 'string|min:2|max:65535',
-            'filter.products\.category' => 'string|min:2|max:65535',
-            'filter.products\.created_at' => 'date',
-            'filter.products\.updated_at' => 'date',
-            'filter.products\.deleted_at' => 'date',
+            'filter.product_transactions\.id' => 'integer|between:0,18446744073709551615',
+            'filter.product_transactions\.transaction_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.product_transactions\.product_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.product_transactions\.created_at' => 'date',
+            'filter.product_transactions\.updated_at' => 'date',
             'filter.transaction\.id' => 'integer|between:0,18446744073709551615',
             'filter.transaction\.user_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.transaction\.qty_transaction' => 'integer|between:-2147483647,2147483647',
@@ -53,6 +43,16 @@ class ProductGetRequest extends FormRequest
             'filter.transaction\.status' => 'string|min:2|max:255',
             'filter.transaction\.created_at' => 'date',
             'filter.transaction\.updated_at' => 'date',
+            'filter.product\.id' => 'integer|between:0,18446744073709551615',
+            'filter.product\.label' => 'string|min:2|max:255',
+            'filter.product\.qty' => 'integer|between:-2147483647,2147483647',
+            'filter.product\.price' => 'integer|between:-2147483647,2147483647',
+            'filter.product\.size' => 'integer|between:-2147483647,2147483647',
+            'filter.product\.detail' => 'string|min:2|max:65535',
+            'filter.product\.created_at' => 'date',
+            'filter.product\.updated_at' => 'date',
+            'filter.product\.deleted_at' => 'date',
+            'filter.product\.category' => 'string|min:2|max:255',
             'page.number' => 'integer|min:1',
             'page.size' => 'integer|between:1,100',
             'search' => 'nullable|string|min:3|max:60',

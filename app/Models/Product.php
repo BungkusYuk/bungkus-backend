@@ -47,7 +47,6 @@ class Product extends Model
      * @var string[]
      */
     protected $fillable = [
-        'transaction_id',
         'label',
         'qty',
         'price',
@@ -76,17 +75,6 @@ class Product extends Model
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class, 'product_id');
-    }
-
-    /**
-     * Model relationship definition.
-     * Product belongs to Transaction
-     *
-     * @return BelongsTo
-     */
-    public function transaction(): BelongsTo
-    {
-        return $this->belongsTo(Transaction::class);
     }
 
     /**
