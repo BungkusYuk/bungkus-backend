@@ -42,6 +42,7 @@ final class ProductBuilder extends Builder
             'products.price',
             'products.size',
             'products.detail',
+            'products.category',
             'products.created_at',
             'products.updated_at',
             'products.deleted_at',
@@ -71,6 +72,7 @@ final class ProductBuilder extends Builder
             AllowedFilter::exact('price'),
             AllowedFilter::exact('size'),
             'detail',
+            'category',
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
             AllowedFilter::exact('deleted_at'),
@@ -81,6 +83,7 @@ final class ProductBuilder extends Builder
             AllowedFilter::exact('products.price'),
             AllowedFilter::exact('products.size'),
             'products.detail',
+            'products.category',
             AllowedFilter::exact('products.created_at'),
             AllowedFilter::exact('products.updated_at'),
             AllowedFilter::exact('products.deleted_at'),
@@ -120,6 +123,7 @@ final class ProductBuilder extends Builder
         return [
             'label',
             'detail',
+            'category',
             'transaction.status',
         ];
     }
@@ -139,6 +143,7 @@ final class ProductBuilder extends Builder
             'price',
             'size',
             'detail',
+            'category',
             'created_at',
             'updated_at',
             'deleted_at',

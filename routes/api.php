@@ -20,6 +20,7 @@ Route::get('test', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::apiResource('/products', 'ProductsController')->only(['index', 'show']);
 
 Route::middleware(['auth:sanctum'])->group(static function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -30,7 +31,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
 
     Route::apiResource('/addresses', 'AddressesController');
     Route::apiResource('/carts', 'CartsController');
-    Route::apiResource('/products', 'ProductsController');
+    Route::apiResource('/products', 'ProductsController')->only(['store', 'update', 'destroy']);
     Route::apiResource('/ratings', 'RatingsController');
     Route::apiResource('/transactions', 'TransactionsController');
     Route::apiResource('/users', 'UsersController');

@@ -14,7 +14,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'phone' => 'required|string',
+            'phone' => 'required|string|unique:users,phone',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -48,7 +48,7 @@ class AuthController extends Controller
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad creds'
+                'message' => 'Email or password did not match'
             ], 401);
         }
 
