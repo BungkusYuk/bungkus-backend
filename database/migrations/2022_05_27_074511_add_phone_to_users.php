@@ -23,10 +23,10 @@ class AddPhoneToUsers extends Migration
      *
      * @return void
      */
-    public function down()
+    public function drop()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone')->change();
+            $table->dropColumn('category');
         });
     }
 }
