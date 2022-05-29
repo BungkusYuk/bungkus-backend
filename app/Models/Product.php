@@ -54,6 +54,7 @@ class Product extends Model
         'size',
         'detail',
         'category',
+        'image',
     ];
 
     /**

@@ -31,6 +31,7 @@ class ProductSaveRequest extends FormRequest
             'size' => 'required|integer|between:-2147483647,2147483647',
             'detail' => 'required|string|min:2|max:65535',
             'category' => 'required|string|min:2|max:65535',
+            'image' => 'required|string|min:2|max:65535',
         ];
     }
 }
