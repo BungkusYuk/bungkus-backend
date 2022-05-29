@@ -42,24 +42,11 @@ jobs:
     needs: build-docker
     steps:
       - name: "remote server"
-      - uses: actions/checkout@v2
-        env:
-         SSH_USER: ${{ secrets.SSH_USER }}
-         SSH_KEY: ${{ secrets.SSH_PEM }}
-         SSH_HOST: ${{ secrets.SSH_HOST }}
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/ssh.pem
-          chmod 400 ~/.ssh/ssh.pem
-          cat >> ~/.ssh/config << END
-          Host Deployment
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/ssh.pem
-            StrictHostKeyChecking=no
-          END
+        uses: appleboy/ssh-action@master
         with:
+          host: ${{ secrets.HOST_SSH }}
+          username: ${{ secrets.USERNAME_SSH }}
+          password: ${{ secrets.PASSWORD_SSH }}
           script: |
             cd /home/widi/stacks/segar-backend-api
             ./update.sh
-            
