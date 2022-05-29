@@ -48,7 +48,5 @@ jobs:
           username: ${{ secrets.USERNAME_SSH }}
           password: ${{ secrets.PASSWORD_SSH }}
           script: |
-            cd 
-            docker rmi -f $(docker images -a -q)
-            docker pull dwiwidianto/be-ezpay:latest
-            docker run -d --name be_service -p 80:8000 dwiwidianto/be-ezpay:latest
+            cd /home/widi/stacks/segar-backend-api
+            ./update.sh
