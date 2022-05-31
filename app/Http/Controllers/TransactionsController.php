@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionSaveRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
+use App\Models\ProductTransaction;
 use App\Models\Transaction;
 use App\QueryBuilders\TransactionBuilder;
 use Illuminate\Http\JsonResponse;
@@ -83,8 +84,15 @@ class TransactionsController extends Controller
      */
     public function store(TransactionSaveRequest $request, Transaction $transaction): JsonResponse
     {
+        $request['status'] = 'inprogress';
         $transaction->fill($request->only($transaction->offsetGet('fillable')))
             ->save();
+
+        foreach ($request['product_transactions'] ?: [] as $item) {
+            $productTransaction = new ProductTransaction;
+            $item['transaction_id'] = $transaction->id;
+            $productTransaction->fill($item)->save();
+        }
 
         $resource = (new TransactionResource($transaction))
             ->additional(['info' => 'The new transaction has been saved.']);

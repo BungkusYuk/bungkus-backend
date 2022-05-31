@@ -73,6 +73,7 @@ class User extends Authenticatable
                 'users.email',
                 'users.phone',
                 'carts.product_qty',
+                'carts.is_checked',
                 'products.*',
                 'users.id',
             ]);
