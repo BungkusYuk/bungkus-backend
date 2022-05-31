@@ -197,13 +197,13 @@ class CartsController extends Controller
             'shipping_cost' => 'required|integer|between:0,2147483647',
         ]);
 
-        $productCart = auth()->user()->carts->where('is_checked',1);
+        $productCart = auth()->user()?->carts->where('is_checked',1)?:[];
         $subTotal=0;
         foreach ($productCart as $item) {
             $subTotal += $item['product_qty']*$item['price'];
         }
         $response = [
-            'qty_transaction' => $productCart->count(),
+            'qty_transaction' => count($productCart),
             'subtotal_products' => $subTotal,
             'shipping_cost' => $request['shipping_cost'],
             'total_price' => $subTotal+$request['shipping_cost'],

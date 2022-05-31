@@ -14,7 +14,8 @@ class AddShippingCostInTransactions extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            //
+            $table->bigInteger('address_id');
+            $table->integer('shipping_cost');
         });
     }
 
@@ -26,7 +27,8 @@ class AddShippingCostInTransactions extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            //
+            $table->dropColumn('address_id');
+            $table->dropColumn('shipping_cost');
         });
     }
 }
