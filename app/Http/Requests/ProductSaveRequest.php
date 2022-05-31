@@ -26,9 +26,9 @@ class ProductSaveRequest extends FormRequest
     {
         return [
             'label' => 'required|string|min:2|max:255',
-            'qty' => 'required|integer|between:-2147483647,2147483647',
-            'price' => 'required|integer|between:-2147483647,2147483647',
-            'size' => 'required|integer|between:-2147483647,2147483647',
+            'qty' => 'required|integer|between:0,2147483647',
+            'price' => 'required|integer|between:0,2147483647',
+            'size' => 'required|integer|between:0,2147483647',
             'detail' => 'required|string|min:2|max:65535',
             'category' => 'required|string|min:2|max:65535',
             'image' => 'required|string|min:2|max:65535',

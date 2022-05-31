@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Cart;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -47,12 +48,33 @@ class User extends Authenticatable
 
     /**
      * Model relationship definition.
-     * Address has many Carts
+     * User has many Address
      *
      * @return HasMany
      */
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class, 'user_id');
+    }
+
+    /**
+     * Model relationship definition.
+     * User has many Carts
+     *
+     * @return HasMany
+     */
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class, 'user_id')
+            ->leftJoin('users','carts.user_id','=','users.id')
+            ->leftJoin('products','carts.product_id','=','products.id')
+            ->select([
+                'users.name',
+                'users.email',
+                'users.phone',
+                'carts.product_qty',
+                'products.*',
+                'users.id',
+            ]);
     }
 }

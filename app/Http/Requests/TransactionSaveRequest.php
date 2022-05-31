@@ -32,9 +32,9 @@ class TransactionSaveRequest extends FormRequest
     {
         return [
             'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
-            'qty_transaction' => 'required|integer|between:-2147483647,2147483647',
-            'subtotal_products' => 'required|integer|between:-2147483647,2147483647',
-            'total_price' => 'required|integer|between:-2147483647,2147483647',
+            'qty_transaction' => 'required|integer|between:0,2147483647',
+            'subtotal_products' => 'required|integer|between:0,2147483647',
+            'total_price' => 'required|integer|between:0,2147483647',
             'status' => 'required|string|min:2|max:255',
         ];
     }

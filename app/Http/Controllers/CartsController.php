@@ -9,6 +9,8 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\QueryBuilders\CartBuilder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 /**
  * @group Cart Management
@@ -155,7 +157,7 @@ class CartsController extends Controller
         if ($request['product_qty']>$product['qty']) {
             abort(422, 'Out of stock');
         }
-        
+
         $cart->fill($request->only($cart->offsetGet('fillable')));
 
         if ($cart->isDirty()) {
@@ -187,5 +189,25 @@ class CartsController extends Controller
 
         return (new CartResource($cart))
             ->additional(['info' => 'The cart has been deleted.']);
+    }
+
+    public function details(Request $request): Response
+    {
+        $request->validate([
+            'shipping_cost' => 'required|integer|between:0,2147483647',
+        ]);
+
+        $productCart = auth()->user()->carts;
+        $subTotal=0;
+        foreach ($productCart as $item) {
+            $subTotal += $item['product_qty']*$item['price'];
+        }
+        $response = [
+            'subtotal_products' => $subTotal,
+            'shipping_cost' => $request['shipping_cost'],
+            'total_price' => $subTotal+$request['shipping_cost'],
+        ];
+
+        return response($response, 200);
     }
 }
