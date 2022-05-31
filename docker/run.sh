@@ -3,7 +3,7 @@
 cd /var/www
 composer install --optimize-autoloader --no-dev
 
-# php artisan migrate:fresh --seed
+php artisan migrate
 php artisan key:generate
 php artisan config:cache
 php artisan route:cache
