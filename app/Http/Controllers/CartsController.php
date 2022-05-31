@@ -6,6 +6,7 @@ use App\Http\Requests\CartSaveRequest;
 use App\Http\Resources\CartCollection;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
+use App\Models\Product;
 use App\QueryBuilders\CartBuilder;
 use Illuminate\Http\JsonResponse;
 
@@ -86,6 +87,11 @@ class CartsController extends Controller
      */
     public function store(CartSaveRequest $request, Cart $cart): JsonResponse
     {
+        $product = Product::where('id',$request['product_id'])->firstOrFail();
+        if ($request['product_qty']>$product['qty']) {
+            abort(422, 'Out of stock');
+        }
+
         $cart->fill($request->only($cart->offsetGet('fillable')))
             ->save();
 
@@ -145,6 +151,11 @@ class CartsController extends Controller
      */
     public function update(CartSaveRequest $request, Cart $cart): CartResource
     {
+        $product = Product::where('id',$request['product_id'])->firstOrFail();
+        if ($request['product_qty']>$product['qty']) {
+            abort(422, 'Out of stock');
+        }
+        
         $cart->fill($request->only($cart->offsetGet('fillable')));
 
         if ($cart->isDirty()) {

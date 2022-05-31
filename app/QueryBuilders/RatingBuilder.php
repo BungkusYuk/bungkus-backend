@@ -6,6 +6,8 @@ use App\Http\Requests\RatingGetRequest;
 use App\Models\Rating;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 final class RatingBuilder extends Builder
 {
@@ -165,5 +167,12 @@ final class RatingBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+    
+    public function paginate(): LengthAwarePaginator|Paginator
+    {
+        $query = $this->query();
+        $query = $query->where('user_id',auth()->user()?->id);
+        return $query->jsonPaginate();
     }
 }

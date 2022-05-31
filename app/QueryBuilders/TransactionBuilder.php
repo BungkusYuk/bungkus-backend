@@ -6,6 +6,8 @@ use App\Http\Requests\TransactionGetRequest;
 use App\Models\Transaction;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 final class TransactionBuilder extends Builder
 {
@@ -148,5 +150,12 @@ final class TransactionBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+    
+    public function paginate(): LengthAwarePaginator|Paginator
+    {
+        $query = $this->query();
+        $query = $query->where('user_id',auth()->user()?->id);
+        return $query->jsonPaginate();
     }
 }
