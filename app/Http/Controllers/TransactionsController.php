@@ -6,6 +6,7 @@ use App\Http\Requests\TransactionSaveRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
 use App\Models\ProductTransaction;
+use App\Models\Rating;
 use App\Models\Transaction;
 use App\QueryBuilders\TransactionBuilder;
 use Illuminate\Http\JsonResponse;
@@ -85,12 +86,23 @@ class TransactionsController extends Controller
     public function store(TransactionSaveRequest $request, Transaction $transaction): JsonResponse
     {
         $request['status'] = 'inprogress';
+        $request['invoice_number'] = 'INV'.now()->format('Ymd');
         $transaction->fill($request->only($transaction->offsetGet('fillable')))
             ->save();
 
         foreach ($request['product_transactions'] ?: [] as $item) {
             $productTransaction = new ProductTransaction;
             $item['transaction_id'] = $transaction->id;
+
+            $rating = new Rating;
+            $rating->fill([
+                'user_id' => auth()->user()?->id,
+                'product_id' => $item['product_id'],
+                'transaction_id' => $transaction->id,
+                'rating' => 0,
+                'is_rating' => false,
+            ])->save();
+            
             $productTransaction->fill($item)->save();
         }
 

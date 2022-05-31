@@ -37,6 +37,7 @@ class Transaction extends Model
         'subtotal_products',
         'total_price',
         'status',
+        'invoice_number',
         'shipping_cost',
     ];
 

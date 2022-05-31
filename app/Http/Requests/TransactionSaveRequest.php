@@ -38,6 +38,7 @@ class TransactionSaveRequest extends FormRequest
             'total_price' => 'required|integer|between:0,2147483647',
             'shipping_cost' => 'required|integer|between:0,2147483647',
             'status' => 'nullable|string|min:2|max:255',
+            'invoice_number' => 'nullable|string|min:2|max:255',
             'product_transactions' => 'required|array',
         ];
     }

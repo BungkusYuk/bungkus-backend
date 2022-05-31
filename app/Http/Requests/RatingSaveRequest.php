@@ -32,9 +32,10 @@ class RatingSaveRequest extends FormRequest
     {
         return [
             'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
+            'transaction_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
             'product_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
-            'rating' => 'required|integer|between:0,5',
-            'is_rating' => 'required|boolean',
+            'rating' => 'required|integer|between:0,10',
+            'is_rating' => 'nullable|boolean',
         ];
     }
 }

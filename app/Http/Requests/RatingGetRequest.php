@@ -27,6 +27,7 @@ class RatingGetRequest extends FormRequest
         return [
             'filter.id' => 'integer|between:0,18446744073709551615',
             'filter.user_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.transaction_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.product_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.rating' => 'integer|between:-2147483647,2147483647',
             'filter.is_rating' => 'boolean',
@@ -35,6 +36,7 @@ class RatingGetRequest extends FormRequest
             'filter.ratings\.id' => 'integer|between:0,18446744073709551615',
             'filter.ratings\.user_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.ratings\.product_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.ratings\.transaction_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.ratings\.rating' => 'integer|between:-2147483647,2147483647',
             'filter.ratings\.is_rating' => 'boolean',
             'filter.ratings\.created_at' => 'date',
