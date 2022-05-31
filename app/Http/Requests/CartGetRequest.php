@@ -34,6 +34,8 @@ class CartGetRequest extends FormRequest
             'filter.carts\.id' => 'integer|between:0,18446744073709551615',
             'filter.carts\.user_id' => 'integer|between:-9223372036854775807,9223372036854775807',
             'filter.carts\.product_id' => 'integer|between:-9223372036854775807,9223372036854775807',
+            'filter.is_checked' => 'boolean',
+            'filter.carts\.is_checked' => 'boolean',
             'filter.carts\.product_qty' => 'integer|between:-2147483647,2147483647',
             'filter.carts\.created_at' => 'date',
             'filter.carts\.updated_at' => 'date',

@@ -6,6 +6,8 @@ use App\Http\Requests\RatingGetRequest;
 use App\Models\Rating;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 final class RatingBuilder extends Builder
 {
@@ -38,6 +40,7 @@ final class RatingBuilder extends Builder
             'ratings.id',
             'ratings.user_id',
             'ratings.product_id',
+            'ratings.transaction_id',
             'ratings.rating',
             'ratings.is_rating',
             'ratings.created_at',
@@ -75,6 +78,7 @@ final class RatingBuilder extends Builder
             AllowedFilter::exact('id'),
             AllowedFilter::exact('user_id'),
             AllowedFilter::exact('product_id'),
+            AllowedFilter::exact('transaction_id'),
             AllowedFilter::exact('rating'),
             AllowedFilter::exact('is_rating'),
             AllowedFilter::exact('created_at'),
@@ -82,6 +86,7 @@ final class RatingBuilder extends Builder
             AllowedFilter::exact('ratings.id'),
             AllowedFilter::exact('ratings.user_id'),
             AllowedFilter::exact('ratings.product_id'),
+            AllowedFilter::exact('ratings.transaction_id'),
             AllowedFilter::exact('ratings.rating'),
             AllowedFilter::exact('ratings.is_rating'),
             AllowedFilter::exact('ratings.created_at'),
@@ -150,6 +155,7 @@ final class RatingBuilder extends Builder
             'id',
             'user_id',
             'product_id',
+            'transaction_id',
             'rating',
             'is_rating',
             'created_at',
@@ -165,5 +171,27 @@ final class RatingBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+
+    public function query(): QueryBuilder
+    {
+        return parent::query() //@phpstan-ignore-line
+            ->leftJoin('products','ratings.product_id','=','products.id')
+            ->leftJoin('transactions','ratings.transaction_id','=','transactions.id')
+            ->select([
+                'ratings.*',
+                'transactions.invoice_number',
+                'products.image',
+                'products.label',
+                'products.size',
+            ])
+            ->groupBy(['ratings.id']);
+    }
+    
+    public function paginate(): LengthAwarePaginator|Paginator
+    {
+        $query = $this->query();
+        $query = $query->where('ratings.user_id',auth()->user()?->id);
+        return $query->jsonPaginate();
     }
 }

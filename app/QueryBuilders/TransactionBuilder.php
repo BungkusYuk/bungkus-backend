@@ -6,6 +6,8 @@ use App\Http\Requests\TransactionGetRequest;
 use App\Models\Transaction;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 final class TransactionBuilder extends Builder
 {
@@ -37,10 +39,13 @@ final class TransactionBuilder extends Builder
         return [
             'transactions.id',
             'transactions.user_id',
+            'transactions.address_id',
             'transactions.qty_transaction',
             'transactions.subtotal_products',
             'transactions.total_price',
             'transactions.status',
+            'transactions.invoice_number',
+            'transactions.shipping_cost',
             'transactions.created_at',
             'transactions.updated_at',
             'user.id',
@@ -65,18 +70,24 @@ final class TransactionBuilder extends Builder
         return [
             AllowedFilter::exact('id'),
             AllowedFilter::exact('user_id'),
+            AllowedFilter::exact('address_id'),
             AllowedFilter::exact('qty_transaction'),
             AllowedFilter::exact('subtotal_products'),
             AllowedFilter::exact('total_price'),
             AllowedFilter::exact('status'),
+            AllowedFilter::exact('invoice_number'),
+            AllowedFilter::exact('shipping_cost'),
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
             AllowedFilter::exact('transactions.id'),
             AllowedFilter::exact('transactions.user_id'),
+            AllowedFilter::exact('transactions.address_id'),
             AllowedFilter::exact('transactions.qty_transaction'),
             AllowedFilter::exact('transactions.subtotal_products'),
             AllowedFilter::exact('transactions.total_price'),
             AllowedFilter::exact('transactions.status'),
+            AllowedFilter::exact('transactions.invoice_number'),
+            AllowedFilter::exact('transactions.shipping_cost'),
             AllowedFilter::exact('transactions.created_at'),
             AllowedFilter::exact('transactions.updated_at'),
             AllowedFilter::exact('user.id'),
@@ -100,6 +111,7 @@ final class TransactionBuilder extends Builder
     {
         return [
             'user',
+            'address',
             'productTransactions',
         ];
     }
@@ -113,6 +125,7 @@ final class TransactionBuilder extends Builder
     {
         return [
             'status',
+            'invoice_number',
             'user.name',
             'user.email',
             'user.phone',
@@ -131,10 +144,13 @@ final class TransactionBuilder extends Builder
         return [
             'id',
             'user_id',
+            'address_id',
             'qty_transaction',
             'subtotal_products',
             'total_price',
             'status',
+            'invoice_number',
+            'shipping_cost',
             'created_at',
             'updated_at',
         ];
@@ -148,5 +164,12 @@ final class TransactionBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+    
+    public function paginate(): LengthAwarePaginator|Paginator
+    {
+        $query = $this->query();
+        $query = $query->where('user_id',auth()->user()?->id);
+        return $query->jsonPaginate();
     }
 }

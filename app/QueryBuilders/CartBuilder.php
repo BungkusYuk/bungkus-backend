@@ -6,6 +6,8 @@ use App\Http\Requests\CartGetRequest;
 use App\Models\Cart;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 final class CartBuilder extends Builder
 {
@@ -39,6 +41,7 @@ final class CartBuilder extends Builder
             'carts.user_id',
             'carts.product_id',
             'carts.product_qty',
+            'carts.is_checked',
             'carts.created_at',
             'carts.updated_at',
             'user.id',
@@ -75,12 +78,14 @@ final class CartBuilder extends Builder
             AllowedFilter::exact('user_id'),
             AllowedFilter::exact('product_id'),
             AllowedFilter::exact('product_qty'),
+            AllowedFilter::exact('is_checked'),
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
             AllowedFilter::exact('carts.id'),
             AllowedFilter::exact('carts.user_id'),
             AllowedFilter::exact('carts.product_id'),
             AllowedFilter::exact('carts.product_qty'),
+            AllowedFilter::exact('carts.is_checked'),
             AllowedFilter::exact('carts.created_at'),
             AllowedFilter::exact('carts.updated_at'),
             AllowedFilter::exact('user.id'),
@@ -148,6 +153,7 @@ final class CartBuilder extends Builder
             'user_id',
             'product_id',
             'product_qty',
+            'is_checked',
             'created_at',
             'updated_at',
         ];
@@ -161,5 +167,12 @@ final class CartBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+
+    public function paginate(): LengthAwarePaginator|Paginator
+    {
+        $query = $this->query();
+        $query = $query->where('user_id',auth()->user()?->id);
+        return $query->jsonPaginate();
     }
 }

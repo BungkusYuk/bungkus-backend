@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Address;
 use App\Models\Product;
 use App\Models\ProductTransaction;
 use App\Models\User;
@@ -31,10 +32,13 @@ class Transaction extends Model
      */
     protected $fillable = [
         'user_id',
+        'address_id',
         'qty_transaction',
         'subtotal_products',
         'total_price',
         'status',
+        'invoice_number',
+        'shipping_cost',
     ];
 
     /**
@@ -45,7 +49,13 @@ class Transaction extends Model
      */
     public function productTransactions(): HasMany
     {
-        return $this->hasMany(ProductTransaction::class, 'transaction_id');
+        return $this->hasMany(ProductTransaction::class, 'transaction_id')
+            ->leftJoin('transactions','product_transactions.transaction_id','=','transactions.id')
+            ->leftJoin('products','product_transactions.product_id','=','products.id')
+            ->select([
+                'products.*',
+                'product_transactions.*',
+            ]);
     }
 
     /**
@@ -57,5 +67,16 @@ class Transaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Model relationship definition.
+     * Transaction belongs to Address
+     *
+     * @return BelongsTo
+     */
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
     }
 }

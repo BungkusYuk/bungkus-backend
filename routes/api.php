@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(static function () {
         return ['app' => config('app.name')];
     });
 
+    Route::post('/carts/details', [CartsController::class, 'details']);
     Route::apiResource('/addresses', 'AddressesController');
     Route::apiResource('/carts', 'CartsController');
     Route::apiResource('/products', 'ProductsController')->only(['store', 'update', 'destroy']);

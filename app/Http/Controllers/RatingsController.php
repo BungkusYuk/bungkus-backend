@@ -145,6 +145,7 @@ class RatingsController extends Controller
      */
     public function update(RatingSaveRequest $request, Rating $rating): RatingResource
     {
+        $request['is_rating'] = 1;
         $rating->fill($request->only($rating->offsetGet('fillable')));
 
         if ($rating->isDirty()) {

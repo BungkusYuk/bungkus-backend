@@ -33,7 +33,8 @@ class CartSaveRequest extends FormRequest
         return [
             'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
             'product_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
-            'product_qty' => 'required|integer|between:-2147483647,2147483647',
+            'product_qty' => 'required|integer|between:0,2147483647',
+            'is_checked' => 'required|boolean',
         ];
     }
 }
