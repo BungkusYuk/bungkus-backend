@@ -17,6 +17,12 @@ class TransactionSaveRequest extends FormRequest
 //        return (auth()->guard('api')->check() || auth()->guard('cms-api')->check());
     }
 
+    public function prepareForValidation(): void
+    {
+        $userId = auth()->user()?->id;
+        $this->merge(['user_id' => $userId]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +31,7 @@ class TransactionSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
+            'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
             'qty_transaction' => 'required|integer|between:-2147483647,2147483647',
             'subtotal_products' => 'required|integer|between:-2147483647,2147483647',
             'total_price' => 'required|integer|between:-2147483647,2147483647',
