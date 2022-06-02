@@ -97,7 +97,7 @@ class CartsController extends Controller
         }
 
         if ($request['product_qty']>$product['qty']) {
-            abort(422, 'Out of stock');
+            abort(422, 'There is only '.$product['qty'].' stock left, you already have '.$cartTemp['product_qty'].' in your cart');
         }
 
         $cartResult = $cart->updateOrCreate([
