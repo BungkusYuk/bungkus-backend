@@ -30,16 +30,24 @@ class TransactionSaveRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
-            'address_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
-            'qty_transaction' => 'required|integer|between:0,2147483647',
-            'subtotal_products' => 'required|integer|between:0,2147483647',
-            'total_price' => 'required|integer|between:0,2147483647',
-            'shipping_cost' => 'required|integer|between:0,2147483647',
-            'status' => 'nullable|string|min:2|max:255',
-            'invoice_number' => 'nullable|string|min:2|max:255',
-            'product_transactions' => 'required|array',
-        ];
+        if ($this->isMethod('post')) {
+            return [
+                'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
+                'address_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
+                'qty_transaction' => 'required|integer|between:0,2147483647',
+                'subtotal_products' => 'required|integer|between:0,2147483647',
+                'total_price' => 'required|integer|between:0,2147483647',
+                'shipping_cost' => 'required|integer|between:0,2147483647',
+                'status' => 'nullable|string|min:2|max:255',
+                'invoice_number' => 'nullable|string|min:2|max:255',
+                'product_transactions' => 'required|array',
+            ];
+        }
+
+        if ($this->isMethod('put')) {
+            return [
+                'status' => 'nullable|string|min:2|max:255',
+            ];
+        }
     }
 }
