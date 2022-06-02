@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionSaveRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
+use App\Models\Cart;
+use App\Models\Product;
 use App\Models\ProductTransaction;
 use App\Models\Rating;
 use App\Models\Transaction;
