@@ -92,12 +92,15 @@ class CartsController extends Controller
         $product = Product::where('id',$request['product_id'])->firstOrFail();
 
         $cartTemp = Cart::where('user_id',auth()->user()?->id)->where('product_id',$request['product_id'])->first();
+
+        $inStock = $request['product_qty'];
         if ($cartTemp) {
             $request['product_qty'] = $cartTemp['product_qty'] + $request['product_qty'];
+            $inStock = $cartTemp['product_qty'];
         }
 
         if ($request['product_qty']>$product['qty']) {
-            abort(422, 'There is only '.$product['qty'].' stock left, you already have '.$cartTemp['product_qty'].' in your cart');
+            abort(422, 'There is only '.$product['qty'].' stock left, you already have '.$inStock.' in your cart');
         }
 
         $cartResult = $cart->updateOrCreate([
