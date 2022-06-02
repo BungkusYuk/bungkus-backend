@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TransactionSaveRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
+use App\Models\Cart;
+use App\Models\Product;
 use App\Models\ProductTransaction;
 use App\Models\Rating;
 use App\Models\Transaction;
@@ -87,6 +89,15 @@ class TransactionsController extends Controller
     {
         $request['status'] = 'inprogress';
         $request['invoice_number'] = 'INV'.now()->format('Ymd');
+
+        foreach ($request['product_transactions'] ?: [] as $item) {
+            $product = Product::where('id',$item['product_id'])->firstOrFail();
+            if ($item['qty']>$product['qty']) {
+                abort(422, $item['product_id'].', Out of stock');
+            }
+            $product->decrement('qty',$item['qty']);
+        }
+
         $transaction->fill($request->only($transaction->offsetGet('fillable')))
             ->save();
 
@@ -104,6 +115,8 @@ class TransactionsController extends Controller
             ])->save();
             
             $productTransaction->fill($item)->save();
+
+            Cart::where('user_id',auth()->user()?->id)->where('product_id',$item['product_id'])->firstOrFail()->delete();
         }
 
         $resource = (new TransactionResource($transaction))
@@ -159,6 +172,11 @@ class TransactionsController extends Controller
      */
     public function update(TransactionSaveRequest $request, Transaction $transaction): TransactionResource
     {
+        if ($transaction['status']=='complete') {
+            abort(422, 'is not inprogress');
+        }
+        $request['status'] = 'complete';
+
         $transaction->fill($request->only($transaction->offsetGet('fillable')));
 
         if ($transaction->isDirty()) {

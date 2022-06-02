@@ -90,14 +90,25 @@ class CartsController extends Controller
     public function store(CartSaveRequest $request, Cart $cart): JsonResponse
     {
         $product = Product::where('id',$request['product_id'])->firstOrFail();
+
+        $cartTemp = Cart::where('user_id',auth()->user()?->id)->where('product_id',$request['product_id'])->first();
+        if ($cartTemp) {
+            $request['product_qty'] = $cartTemp['product_qty'] + $request['product_qty'];
+        }
+
         if ($request['product_qty']>$product['qty']) {
             abort(422, 'Out of stock');
         }
 
-        $cart->fill($request->only($cart->offsetGet('fillable')))
-            ->save();
+        $cartResult = $cart->updateOrCreate([
+            'user_id' => auth()->user()?->id,
+            'product_id' => $request['product_id'],
+        ],[
+            'product_qty' => $request['product_qty'],
+            'is_checked' => 1,
+        ]);
 
-        $resource = (new CartResource($cart))
+        $resource = (new CartResource($cartResult))
             ->additional(['info' => 'The new cart has been saved.']);
 
         return $resource->toResponse($request)->setStatusCode(201);
@@ -205,7 +216,7 @@ class CartsController extends Controller
         $response = [
             'qty_transaction' => count($productCart),
             'subtotal_products' => $subTotal,
-            'shipping_cost' => $request['shipping_cost'],
+            'shipping_cost' => (int)$request['shipping_cost'],
             'total_price' => $subTotal+$request['shipping_cost'],
         ];
 

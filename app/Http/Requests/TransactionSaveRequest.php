@@ -30,6 +30,12 @@ class TransactionSaveRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isMethod('put')) {
+            return [
+                'status' => 'nullable|string|min:2|max:255',
+            ];
+        }
+        
         return [
             'user_id' => 'nullable|integer|between:-9223372036854775807,9223372036854775807',
             'address_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
