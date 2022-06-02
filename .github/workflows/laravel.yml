@@ -36,19 +36,19 @@ jobs:
     - name: Composer Check
       run: composer check
   
-  release:
-    name: build
-    runs-on: ubuntu-latest
-    needs: laravel-tests
-    steps:
-      - name: "remote server"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_SSH }}
-          username: ${{ secrets.USERNAME_SSH }}
-          password: ${{ secrets.PASSWORD_SSH }}
-          script: |
-            cd /home/widi/stacks/segar-backend-api
-            git pull origin main
-            ./update.sh
-            docker pull registry.gitlab.com/gitops-widi/container-registry/segarbox/laravel:php8.0-fpm
+  # release:
+  #   name: build
+  #   runs-on: ubuntu-latest
+  #   needs: laravel-tests
+  #   steps:
+  #     - name: "remote server"
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.HOST_SSH }}
+  #         username: ${{ secrets.USERNAME_SSH }}
+  #         password: ${{ secrets.PASSWORD_SSH }}
+  #         script: |
+  #           cd /home/widi/stacks/segar-backend-api
+  #           git pull origin main
+  #           ./update.sh
+  #           docker pull registry.gitlab.com/gitops-widi/container-registry/segarbox/laravel:php8.0-fpm
