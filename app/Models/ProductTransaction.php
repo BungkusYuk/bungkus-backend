@@ -30,6 +30,7 @@ class ProductTransaction extends Model
     protected $fillable = [
         'transaction_id',
         'product_id',
+        'product_qty',
     ];
 
     /**
