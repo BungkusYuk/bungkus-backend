@@ -27,6 +27,7 @@ class ProductTransactionSaveRequest extends FormRequest
         return [
             'transaction_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
             'product_id' => 'required|integer|between:-9223372036854775807,9223372036854775807',
+            'product_qty' => 'required|integer|between:0,2147483647',
         ];
     }
 }

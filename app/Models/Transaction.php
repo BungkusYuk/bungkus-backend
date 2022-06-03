@@ -52,11 +52,9 @@ class Transaction extends Model
         return $this->hasMany(ProductTransaction::class, 'transaction_id')
             ->leftJoin('transactions','product_transactions.transaction_id','=','transactions.id')
             ->leftJoin('products','product_transactions.product_id','=','products.id')
-            ->leftJoin('carts','carts.product_id','=','products.id')
             ->select([
                 'products.*',
                 'product_transactions.*',
-                'carts.product_qty',
             ]);
     }
 
