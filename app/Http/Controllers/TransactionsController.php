@@ -104,6 +104,7 @@ class TransactionsController extends Controller
         foreach ($request['product_transactions'] ?: [] as $item) {
             $productTransaction = new ProductTransaction;
             $item['transaction_id'] = $transaction->id;
+            $item['product_qty'] = $item['qty'];
 
             $rating = new Rating;
             $rating->fill([
