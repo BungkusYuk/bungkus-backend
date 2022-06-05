@@ -105,15 +105,6 @@ class TransactionsController extends Controller
             $productTransaction = new ProductTransaction;
             $item['transaction_id'] = $transaction->id;
             $item['product_qty'] = $item['qty'];
-
-            $rating = new Rating;
-            $rating->fill([
-                'user_id' => auth()->user()?->id,
-                'product_id' => $item['product_id'],
-                'transaction_id' => $transaction->id,
-                'rating' => 0,
-                'is_rating' => false,
-            ])->save();
             
             $productTransaction->fill($item)->save();
 
@@ -182,6 +173,17 @@ class TransactionsController extends Controller
 
         if ($transaction->isDirty()) {
             $transaction->save();
+        }
+
+        foreach ($request['product_transactions'] ?: [] as $item) {
+            $rating = new Rating;
+            $rating->fill([
+                'user_id' => auth()->user()?->id,
+                'product_id' => $item['product_id'],
+                'transaction_id' => $transaction->id,
+                'rating' => 0,
+                'is_rating' => false,
+            ])->save();
         }
 
         return (new TransactionResource($transaction))
