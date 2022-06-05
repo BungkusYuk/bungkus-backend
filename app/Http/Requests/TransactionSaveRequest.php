@@ -33,6 +33,7 @@ class TransactionSaveRequest extends FormRequest
         if ($this->isMethod('put')) {
             return [
                 'status' => 'nullable|string|min:2|max:255',
+                'product_transactions' => 'required|array',
             ];
         }
         
