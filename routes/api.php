@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartsController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,11 +20,13 @@ Route::get('test', function () {
     return ['app' => config('app.name')];
 });
 
+Route::get('/show_recommendation', [ProductsController::class, 'showRecommendation']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::apiResource('/products', 'ProductsController')->only(['index', 'show']);
 
 Route::middleware(['auth:sanctum'])->group(static function () {
+    Route::get('/get_user', [AuthController::class, 'getUserId']);
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::get('test_login', function () {

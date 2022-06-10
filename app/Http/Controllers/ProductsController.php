@@ -8,6 +8,8 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\QueryBuilders\ProductBuilder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * @group Product Management
@@ -90,6 +92,17 @@ class ProductsController extends Controller
             ->additional(['info' => 'The new product has been saved.']);
 
         return $resource->toResponse($request)->setStatusCode(201);
+    }
+
+    public function showRecommendation(Request $request): Response
+    {
+        $sort = implode(',', $request['product_id']);
+
+        $response = [
+            'data' => Product::whereIn('id',$request['product_id'])->orderByRaw("FIELD(id, $sort)")->get(),
+        ];
+
+        return response($response, 201);
     }
 
     /**

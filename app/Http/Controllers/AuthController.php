@@ -70,4 +70,11 @@ class AuthController extends Controller
             'message' => 'Logged out'
         ];
     }
+
+    public function getUserId(): array 
+    {
+        return [
+            'message' => auth()->user()?->id
+        ];
+    }
 }
