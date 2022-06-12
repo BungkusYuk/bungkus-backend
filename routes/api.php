@@ -20,7 +20,7 @@ Route::get('test', function () {
     return ['app' => config('app.name')];
 });
 
-Route::get('/show_recommendation', [ProductsController::class, 'showRecommendation']);
+Route::post('/show_recommendation', [ProductsController::class, 'showRecommendation']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::apiResource('/products', 'ProductsController')->only(['index', 'show']);
