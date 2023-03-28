@@ -88,7 +88,9 @@ class TransactionsController extends Controller
     public function store(TransactionSaveRequest $request, Transaction $transaction): JsonResponse
     {
         $request['status'] = 'inprogress';
-        $request['invoice_number'] = 'INV'.now()->format('isu');
+        if (empty($request['invoice_number'])){
+            $request['invoice_number'] = 'INV'.now()->format('isu');
+        }
 
         foreach ($request['product_transactions'] ?: [] as $item) {
             $product = Product::where('id',$item['product_id'])->firstOrFail();
